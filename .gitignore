@@ -1,0 +1,6 @@
+# Ignore assignment files #
+###################
+
+#ex4
+ex4-003/mlclass-ex4/nnCostFunction.m
+ex4-003/mlclass-ex4/sigmoidGradient.m
