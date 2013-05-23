@@ -56,25 +56,37 @@ J = J + reg_terms;
 D1 = zeros(size(Theta1));
 D2 = zeros(size(Theta2));
 
-for i = 1:m
-	yi = y_vec(i, :)'; % 10 x 1 vector
-	a1i = a1(i, :)'; % 401 x 1 vector
-	
-	a2i = a2(i, :)'; % 26 x 1 vector
-	z2i = z2(i, :)'; % 25 x 1 vector
-	a3i = a3(i, :)'; % 25 x 1 vector
-	z3i = z3(i, :)'; % 10 x 1 vector
-	
-	d3 = a3i - yi; % 10 x 1 vector
-	d2 = (Theta2(:, 2:end)' * d3) .* sigmoidGradient(z2i); %25 x 1 vector
-	
-	D2 = D2 + d3 * a2i';
-	D1 = D1 + d2 * a1i';
-end;
+% ------------------------------
+% Unvectorised implementation 
+% for i = 1:m
+% 	yi = y_vec(i, :)'; % 10 x 1 vector
+% 	a1i = a1(i, :)'; % 401 x 1 vector
+% 	
+% 	a2i = a2(i, :)'; % 26 x 1 vector
+% 	z2i = z2(i, :)'; % 25 x 1 vector
+% 	a3i = a3(i, :)'; % 25 x 1 vector
+% 	z3i = z3(i, :)'; % 10 x 1 vector
+% 	
+% 	d3 = a3i - yi; % 10 x 1 vector
+% 	d2 = (Theta2(:, 2:end)' * d3) .* sigmoidGradient(z2i); %25 x 1 vector
+% 	
+% 	D2 = D2 + d3 * a2i';
+% 	D1 = D1 + d2 * a1i';
+% end;
+% ------------------------------
+
+% vectorised
+
+d3 = a3 - y_vec;
+
+d2 = d3 * Theta2 .* [ones(m, 1) sigmoidGradient(z2)];
+d2 = d2(:, 2:end);
+
+D2 = d3' * a2;
+D1 = d2' * a1;
 
 Theta1_grad = (D1 / m) + (lambda / m) * t1;
 Theta2_grad = (D2 / m) + (lambda / m) * t2;
-
 
 % =========================================================================
 % Unroll gradients
