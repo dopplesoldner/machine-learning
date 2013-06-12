@@ -10,6 +10,9 @@ n = 1899;
 % You need to return the following variables correctly.
 x = zeros(n, 1);
 
+% column vector to hold indexes for vocabulary
+voc = 1:1899;
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return a feature vector for the
 %               given email (word_indices). To help make it easier to 
@@ -48,7 +51,11 @@ x = zeros(n, 1);
 %
 %
 
+% calculate intersect of vectors 
+common_elements = intersect(voc, word_indices);
 
+% use broadcasting to generate a binary vector for each common element and sum to combine
+x = sum(voc == common_elements');
 
 
 
