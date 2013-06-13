@@ -26,13 +26,15 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
+% generate boolean matrix for elements assigned to cluster
+clusters = idx == (1:K);
 
+% calculate count vector for number of elements assigned to each cluster
+count = sum(clusters == 1)';
 
-
-
-
-
-
+% calculate mean
+centroids = (clusters' * X) ./ count;
+cputime
 % =============================================================
 
 
